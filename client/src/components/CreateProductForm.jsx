@@ -1,6 +1,33 @@
+import axios from "axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 function CreateProductForm() {
+  const [name, setName] = useState("");
+  const [imageURL, setImageURL] = useState("");
+  const [price, setPrice] = useState();
+  const [description, setDescription] = useState("");
+
+  const navigate = useNavigate();
+
+  const createProduct = async () => {
+    await axios.post("http://localhost:4001/products", {
+      name: name,
+      imageURL: imageURL,
+      price: price,
+      description: description,
+    });
+
+    navigate("/");
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    createProduct();
+  };
+
   return (
-    <form className="product-form">
+    <form className="product-form" onSubmit={handleSubmit}>
       <h1>Create Product Form</h1>
       <div className="input-container">
         <label>
@@ -10,7 +37,10 @@ function CreateProductForm() {
             name="name"
             type="text"
             placeholder="Enter name here"
-            onChange={() => {}}
+            value={name}
+            onChange={(event) => {
+              setName(event.target.value);
+            }}
           />
         </label>
       </div>
@@ -22,7 +52,10 @@ function CreateProductForm() {
             name="image"
             type="text"
             placeholder="Enter image url here"
-            onChange={() => {}}
+            value={imageURL}
+            onChange={(event) => {
+              setImageURL(event.target.value);
+            }}
           />
         </label>
       </div>
@@ -34,7 +67,10 @@ function CreateProductForm() {
             name="price"
             type="number"
             placeholder="Enter price here"
-            onChange={() => {}}
+            value={price}
+            onChange={(event) => {
+              setPrice(event.target.value);
+            }}
           />
         </label>
       </div>
@@ -46,7 +82,10 @@ function CreateProductForm() {
             name="description"
             type="text"
             placeholder="Enter description here"
-            onChange={() => {}}
+            value={description}
+            onChange={(event) => {
+              setDescription(event.target.value);
+            }}
             rows={4}
             cols={30}
           />
