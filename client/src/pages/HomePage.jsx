@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 function HomePage() {
   const [products, setProducts] = useState([]);
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
+
+  // const navigate = useNavigate();
 
   const getProducts = async () => {
     try {
@@ -21,16 +25,19 @@ function HomePage() {
   useEffect(() => {
     getProducts();
   }, []);
+
   return (
     <div>
       <div className="app-wrapper">
         <h1 className="app-title">Products</h1>
-        <button>Create Product</button>
+        <button>
+          <Link to="/createproduct">Create Product</Link>
+        </button>
       </div>
       <div className="product-list">
         {products.map((product) => {
           return (
-            <div className="product">
+            <div className="product" key={product.id}>
               <div className="product-preview">
                 <img
                   src="https://via.placeholder.com/250/250"
@@ -44,7 +51,9 @@ function HomePage() {
                 <h2>Product price: {product.price}</h2>
                 <p>Product description: {product.description} </p>
                 <div className="product-actions">
-                  <button className="view-button">View</button>
+                  <button className="view-button">
+                    <Link to={`/viewproduct/${product.id}`}>View</Link>
+                  </button>
                   <button className="edit-button">Edit</button>
                 </div>
               </div>
